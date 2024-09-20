@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+
+  database:
+    container_name: backend-database
+    image: postgres:15-alpine
+    volumes:
+      - ./postgre/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    # ports:
+    #   - "5432:5432"  
+    restart: always
+
+  backend:
+    container_name: backend-django
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: sh -c "python manage.py runserver  0.0.0.0:8000"
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "8000:8000"
+    restart: always
