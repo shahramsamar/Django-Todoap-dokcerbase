@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  database:
+    container_name: backend-database
+    image: postgres:15-alpine
+    volumes:
+      - ./postgre/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+  backend:
+    container_name: backend-django
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: sh -c "python manage.py runserver  0.0.0.0:8000"
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "8000:8000"
+    restart: always
+    # depends_on:
+    #   database:
+    #     condition: service_healthy

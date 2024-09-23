@@ -160,4 +160,7 @@ cython_debug/
 #.idea/
 
 # postgress
-psotgre\data
+postgre\data
+
+# vscode
+.vscode
