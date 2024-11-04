@@ -1,13 +1,20 @@
-FROM python:3.11-slim-buster
+FROM python:3.8-slim-buster
 
 LABEL maintainer="Shahramsamar2010@gmail.com"
 
+# show event 
+ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /usr/src/app
+# directory
+WORKDIR /app
 
-COPY requirements.txt .
+# we need install app for image
+COPY requirements.txt /app/
 
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# install requirements.txt 
+RUN pip3 install --upgrade pip 
+RUN pip3 install  -r requirements.txt
 
-COPY . .
+# copy directory to image
+COPY ./core /app/
